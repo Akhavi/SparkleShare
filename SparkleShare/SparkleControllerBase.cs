@@ -132,6 +132,8 @@ namespace SparkleShare {
 
         public virtual void Initialize ()
         {
+            SparklePlugin.PluginsPath = PluginsPath;
+
             EnableSystemAutostart ();
             InstallProtocolHandler ();
 

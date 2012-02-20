@@ -246,7 +246,7 @@ namespace SparkleShare {
                             }
                         }));
 
-                        address_entry.Completion = new EntryCompletion();
+                        // TODO address_entry.Completion = new EntryCompletion();
                         ListStore server_store = new ListStore (typeof (string));
 
                         foreach (string host in Program.Controller.PreviousHosts)

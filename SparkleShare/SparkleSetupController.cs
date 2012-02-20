@@ -109,9 +109,7 @@ namespace SparkleShare {
             PreviousUrl        = "";
             SyncingFolder      = "";
 
-            string local_plugins_path = SparkleHelpers.CombineMore (
-                Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
-                "sparkleshare", "plugins");
+            string local_plugins_path = SparklePlugin.LocalPluginsPath;
 
             if (Directory.Exists (local_plugins_path))
                 foreach (string xml_file_path in Directory.GetFiles (local_plugins_path, "*.xml"))
@@ -223,7 +221,7 @@ namespace SparkleShare {
         public void SelectedPluginChanged (int plugin_index)
         {
             SelectedPlugin = Plugins [plugin_index];
-
+            Console.WriteLine (SelectedPluginIndex);
             if (SelectedPlugin.Address != null) {
                 if (ChangeAddressFieldEvent != null)
                     ChangeAddressFieldEvent (SelectedPlugin.Address, "", FieldState.Disabled);
@@ -259,7 +257,7 @@ namespace SparkleShare {
             address     = address.Trim ();
             remote_path = remote_path.Trim ();
 
-            bool fields_valid = address != null && address.Trim().Length > 0 &&
+            bool fields_valid = address != null && address.Trim ().Length > 0 &&
                 remote_path != null && remote_path.Trim().Length > 0;
 
             if (UpdateAddProjectButtonEvent != null)
@@ -281,6 +279,22 @@ namespace SparkleShare {
             Program.Controller.FolderFetched += delegate (string [] warnings) {
                 if (ChangePageEvent != null)
                     ChangePageEvent (PageType.Finished, warnings);
+
+                string host = new Uri (address).Host;
+                Console.WriteLine ("fff");
+                int i = 0;
+                foreach (SparklePlugin plugin in Plugins) {
+                    Console.WriteLine (i + ": " + plugin.Name);
+                    i ++;
+                }
+
+                if (SelectedPluginIndex == 1) {
+                    SparklePlugin new_plugin = SparklePlugin.Create (host,
+                        address, address, "", "", "");
+                    Console.WriteLine (">>>>>");
+                    if (new_plugin != null)
+                        Plugins.Insert (1, new_plugin);
+                }
 
                 PreviousAddress = "";
                 SyncingFolder   = "";

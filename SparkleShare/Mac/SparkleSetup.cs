@@ -316,7 +316,7 @@ namespace SparkleShare {
                         };
 
 
-                        TableView = new NSTableView () {
+                        TableView = new SparkleTableView () {
                             Frame            = new RectangleF (0, 0, 0, 0),
                             RowHeight        = 30,
                             IntercellSpacing = new SizeF (0, 12),
@@ -845,6 +845,22 @@ namespace SparkleShare {
         {
             if (SelectionChanged != null)
                 SelectionChanged ();
+        }
+    }
+
+
+    public class SparkleTableView : NSTableView {
+
+        public int ActiveRow {
+            get {
+                return SelectedRow + 1;
+            }
+        }
+
+
+        public void ActivateRow (int row)
+        {
+            SelectRow (row - 1, false);
         }
     }
 }
